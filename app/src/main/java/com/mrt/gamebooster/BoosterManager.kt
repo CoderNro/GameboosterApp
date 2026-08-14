@@ -18,9 +18,9 @@ import android.util.Log
  *   1. Giải phóng RAM bằng cách dừng các process nền không cần thiết.
  *   2. Bật "Không làm phiền" để chặn thông báo gây giật/lag khi có popup đè lên game.
  *   3. Giữ màn hình luôn sáng (chặn sleep) bằng WakeLock trong lúc chơi.
- *   4. Từ Android 12 (API 31): báo cho hệ thống ưu tiên hiệu năng cho tiến trình hiện tại
- *      qua GameManager (GAME_MODE_PERFORMANCE) - đây là API chính thức của Android dành
- *      riêng cho việc này, hệ thống sẽ tự điều chỉnh CPU/GPU governor cho phù hợp.
+ *   4. Từ Android 13 (API 33): báo cho hệ thống ưu tiên hiệu năng cho tiến trình hiện tại
+ *      qua GameManager.setGameState() - đây là API chính thức của Android dành riêng cho
+ *      việc này, hệ thống sẽ tự điều chỉnh CPU/GPU governor cho phù hợp.
  */
 class BoosterManager(private val context: Context) {
 
@@ -51,7 +51,7 @@ class BoosterManager(private val context: Context) {
 
         if (prefs.boosterPerformanceMode) {
             if (requestPerformanceGameMode()) {
-                log.add("Đã yêu cầu hệ thống ưu tiên hiệu năng (Game Mode: Performance)")
+                log.add("Đã yêu cầu hệ thống ưu tiên hiệu năng (Game Mode)")
             } else {
                 log.add("Thiết bị/Android version không hỗ trợ Game Mode API")
             }
@@ -76,9 +76,6 @@ class BoosterManager(private val context: Context) {
             0
         }
 
-        // Chỉ có thể dừng các app KHÔNG phải hệ thống và không đang trong whitelist bảo vệ của OS.
-        // Android giới hạn mạnh API này từ Android 8+ vì lý do bảo mật/pin, đây là hành vi
-        // best-effort đúng như các Booster app khác trên thị trường.
         try {
             val packageManager = context.packageManager
             val installedApps = packageManager.getInstalledApplications(0)
@@ -99,7 +96,6 @@ class BoosterManager(private val context: Context) {
     private fun enableDoNotDisturb(): Boolean {
         val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         if (!nm.isNotificationPolicyAccessGranted) {
-            // Cần user cấp quyền thủ công qua Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS
             return false
         }
         previousInterruptionFilter = nm.currentInterruptionFilter
@@ -127,7 +123,7 @@ class BoosterManager(private val context: Context) {
             "GameBooster:BoostWakeLock"
         ).apply {
             setReferenceCounted(false)
-            acquire(4 * 60 * 60 * 1000L) // Timeout an toàn tối đa 4 tiếng, tránh rò rỉ pin nếu quên tắt
+            acquire(4 * 60 * 60 * 1000L)
         }
     }
 
@@ -138,17 +134,15 @@ class BoosterManager(private val context: Context) {
         wakeLock = null
     }
 
-    // ---- 4. Game Mode Performance (Android 12+) ----
+    // ---- 4. Game Mode Performance (Android 13+) ----
 
     private fun requestPerformanceGameMode(): Boolean {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) return false
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return false
         return try {
             val gameManager = context.getSystemService(Context.GAME_SERVICE) as? GameManager
             gameManager?.let {
-                // GAME_MODE_PERFORMANCE: yêu cầu hệ thống ưu tiên FPS/hiệu năng thay vì tiết kiệm pin.
-                // Việc này chỉ có tác dụng thật sự nếu OEM (Samsung, Xiaomi...) triển khai hỗ trợ.
-                it.updateGameState(
-                    android.app.GameState(false, GameManager.GAME_MODE_PERFORMANCE)
+                it.setGameState(
+                    android.app.GameState(false, android.app.GameState.MODE_GAMEPLAY_UNINTERRUPTIBLE)
                 )
                 true
             } ?: false
