@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Game Booster &amp; Fixed Zone</string>
+
+    <string name="status_granted">✔ Quyền vẽ overlay: Đã cấp</string>
+    <string name="status_not_granted">✘ Quyền vẽ overlay: Chưa cấp</string>
+    <string name="btn_grant_overlay">Cấp quyền hiển thị đè lên ứng dụng khác</string>
+
+    <string name="section_fixed_zone">Vùng chạm cố định</string>
+    <string name="label_zone_enabled">Bật vùng cố định</string>
+    <string name="label_zone_locked">Khóa vị trí (không cho kéo nữa)</string>
+    <string name="label_zone_size">Kích thước vùng (kéo để chỉnh)</string>
+    <string name="hint_zone_usage">Kéo vùng tròn xanh đến vị trí mong muốn trên màn hình khi CHƯA khóa. Sau khi ưng ý, bật \"Khóa vị trí\" — vùng sẽ đứng yên tại đúng vị trí tương đối đó kể cả khi bạn xoay ngang/dọc màn hình chơi game.</string>
+
+    <string name="section_booster">Tối ưu hiệu năng khi chơi game</string>
+    <string name="label_kill_bg">Dừng app chạy nền, giải phóng RAM</string>
+    <string name="label_dnd">Bật Không làm phiền</string>
+    <string name="label_keep_screen_on">Giữ màn hình luôn sáng</string>
+    <string name="label_performance_mode">Ưu tiên hiệu năng hệ thống (Game Mode)</string>
+
+    <string name="btn_start">Bắt đầu</string>
+    <string name="btn_stop">Dừng</string>
+
+    <string name="notification_channel_name">Game Booster</string>
+    <string name="notification_channel_desc">Thông báo khi Game Booster đang chạy nền</string>
+    <string name="notification_title">Game Booster đang hoạt động</string>
+    <string name="notification_text">Vùng cố định và tối ưu hiệu năng đang bật</string>
+    <string name="notification_stop">Dừng</string>
+
+    <string name="msg_grant_overlay_instruction">Hãy bật quyền \"Hiển thị đè lên ứng dụng khác\" cho app này rồi quay lại</string>
+    <string name="msg_grant_dnd_instruction">Hãy cấp quyền \"Do Not Disturb access\" cho app này rồi quay lại</string>
+    <string name="msg_notification_permission_needed">Cần cấp quyền thông báo để service chạy nền ổn định</string>
+    <string name="msg_zone_locked">Đã khóa vị trí vùng cố định</string>
+    <string name="msg_zone_unlocked">Đã mở khóa - có thể kéo để đổi vị trí</string>
+    <string name="msg_service_started">Đã bật Game Booster</string>
+    <string name="msg_service_stopped">Đã tắt Game Booster</string>
+</resources>

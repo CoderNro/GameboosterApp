@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Vòng tròn tượng trưng cho "vùng chạm cố định" -->
+    <path
+        android:fillColor="#66BB6A"
+        android:pathData="M54,30m-24,0a24,24 0,1 1,48 0a24,24 0,1 1,-48 0" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,38m-10,0a10,10 0,1 1,20 0a10,10 0,1 1,-20 0" />
+    <!-- Thanh nền tượng trưng cho tay cầm game -->
+    <path
+        android:fillColor="#66BB6A"
+        android:pathData="M24,70 L84,70 A10,10 0,0 1,94 80 L94,84 A10,10 0,0 1,84 94 L24,94 A10,10 0,0 1,14 84 L14,80 A10,10 0,0 1,24 70 Z" />
+</vector>
